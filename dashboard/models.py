@@ -68,11 +68,16 @@ class Patient(models.Model):
     address = models.CharField(max_length=50)
 
 
-class Diagnostic(models.Model):
+class Diagnosis(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    disease = models.CharField(max_length=50)
-    prescription = models.TextField()
-    date = models.DateTimeField()
+    diagnosis = models.CharField(max_length=50)
+    details = models.TextField(null=True, blank=True)
+    prescription = models.TextField(null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.patient.name
 
 
 class ProductCategory(models.Model):

@@ -88,9 +88,8 @@ class InvoiceListView(ListView):
     template_name = "dashboard/invoices/invoice-list.html"
 
 
-def patientPrescriptionView(request):
-    context = {
-        "patients": Patient.objects.all()
-    }
+class PatientListView(ListView):
+    model = Patient
+    template_name = "dashboard/patients/patient-list.html"
+    
 
-    return render(request, 'dashboard/patients/patient-prescribe.html', context)
