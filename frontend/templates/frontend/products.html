@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% load static %}
+
+{% block content %}
+
+<div class="py-1"></div>
+<h2 class="text-teal-900 text-5xl mb-6 mt-16 font-bold text-center uppercase">PRODUCTS</h2>
+<div class="text-center mb-8">
+    <p class="text-teal-500 mb-4 text-sm font-bold text-center uppercase w-fit mx-auto">
+        Take a look at what we offer
+    </p>
+    <p>
+        Marianna offers a wide range of products to meet our clients' pharmaceutical needs
+    </p>
+</div>
+<div class="container mx-auto py-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        {% for category in categories %}
+        <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="#">
+                <img class="object-cover w-full aspect-video" src="{{ category.image.url }}" alt="" />
+            </a>
+            <div class="p-5">
+                <a href="#">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ category.name }}</h5>
+                </a>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ category.description }}</p>
+                <!-- <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"></a> -->
+            </div>
+        </div>
+        {% endfor %}
+            
+    </div>
+</div>
+
+
+{% endblock content %}

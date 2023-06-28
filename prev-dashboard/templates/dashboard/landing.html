@@ -1,0 +1,56 @@
+{% extends 'base_dashboard.html' %}{% load static %}
+
+
+{% block content %}
+<div class="grid grid-cols-4 gap-4 pb-4">
+   <div class="bg-teal-500 grid aspect-video p-4">
+      <span class="uppercase font-bold text-3xl">drug list</span>
+      <span class="text-4xl font-black">1</span>
+   </div>
+   <div class="bg-red-500 grid aspect-video p-4">
+      <span class="uppercase font-bold text-3xl">expired drugs</span>
+      <span class="text-4xl font-black">1</span>
+   </div>
+   <div class="bg-yellow-500 grid aspect-video p-4">
+      <span class="uppercase font-bold text-3xl">Transactions today</span>
+      <span class="text-4xl font-black">1</span>
+   </div>
+   <div class="bg-amber-500 grid aspect-video p-4">
+      <span class="uppercase font-bold text-3xl">sales</span>
+      <span class="text-4xl font-black">1</span>
+   </div>
+</div>
+<div class="grid lg:grid-cols-3 gap-4">
+   <div class="bg-white rounded-xl p-4 px-8">
+      <div class="flex gap-4">
+         <figure>
+            <i class="fas fa-plus text-4xl font-black"></i>
+         </figure>
+         <p class="grid content-center">
+            <a href="#" class="text-lg">Add New Stock</a>
+         </p>
+      </div>
+   </div>
+   <div class="bg-white rounded-xl p-4 px-8">
+      <div class="flex gap-4">
+         <figure>
+            <i class="fas fa-plus text-4xl font-black"></i>
+         </figure>
+         <p class="grid content-center">
+            <a href="#" class="text-lg">Add New Drug</a>
+         </p>
+      </div>
+   </div>
+   <div class="bg-white rounded-xl p-4 px-8">
+      <div class="flex gap-4">
+         <figure>
+            <i class="fas fa-plus text-4xl font-black"></i>
+         </figure>
+         <p class="grid content-center">
+            <a href="#" class="text-lg">Add Patient</a>
+         </p>
+      </div>
+   </div>
+</div>
+{% endblock content %}
+   

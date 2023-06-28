@@ -1,0 +1,195 @@
+{% extends "base.html" %} {% load static %}
+
+{% block content %}
+
+{% comment %} hero section {% endcomment %}
+<section class="bg-white dark:bg-gray-800">
+    <div class="container flex flex-col px-6 py-10 mx-auto space-y-6 lg:h-[32rem] lg:py-16 lg:flex-row lg:items-center">
+        <div class="w-full lg:w-1/2">
+            <div class="lg:max-w-lg">
+                <h1 class="text-3xl font-bold tracking-wide text-gray-800 dark:text-white lg:text-5xl">
+                    Transforming Lives, One Prescription at a Time
+                </h1>
+
+                <div class="mt-8 space-y-5">
+                    <p>
+                        Welcome to Marianna Pharmacy, your trusted source for personalized pharmaceutical care.
+                        Our dedicated team is committed to your well-being,
+                        providing high-quality medications and convenient services.
+                        Experience the difference of a pharmacy that truly cares.
+                    </p>
+                    <div class="lg:w-72 px-6 lg:px-0">
+                        <div class="p-2 bg-teal-600 rounded-lg shadow-lg sm:p-3">
+                            <div class="flex flex-wrap items-center justify-between group">
+                                <a target="_blank" href="https://www.buymeacoffee.com/khatabwedaa"
+                                    class="flex items-center flex-1 w-0">
+                                    <p class="ml-3 font-medium tracking-wide text-white truncate">
+                                        Get in touch
+                                        <i class="fas fa-arrow-right ml-2 group-hover:ml-6 transition-all"></i>
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!--First image opposite transforming lives-->
+        <div class="flex items-center justify-center w-full h-96 lg:w-1/2">
+            <img class="object-cover w-full h-full mx-auto rounded-md lg:max-w-2xl"
+                src="{% static 'images/im4.jpg' %}"
+                alt="glasses photo">
+        </div>
+    </div>
+</section>
+
+<section title="Our services">
+    <div class="container mx-auto py-8">
+        <h2 class="text-teal-600 text-center text-lg">Welcome to Marianna Pharmacy</h2>
+        <h3 class="text-center text-teal-950 text-3xl font-semibold">How can we be of service today?</h3>
+        <div class="grid grid-cols-3 gap-4 mt-8">
+            <div class="flex bg-teal-100 py-4 px-8">
+                <figure
+                    class="p-4 w-16 h-16 bg-teal-700 aspect-square rounded-full grid place-content-center text-teal-100 hover:text-teal-200">
+                    <i class="fas fa-envelope"></i>
+                </figure>
+                <p class="my-auto ml-4 text-lg hover:text-teal-400 "><a href="{% url 'frontend:products' %}">Products</a></p>
+            </div>
+            <div class="flex bg-teal-100 py-4 px-8">
+                <figure
+                    class="p-4 w-16 h-16 bg-teal-700 aspect-square rounded-full grid place-content-center text-teal-100">
+                    <i class="fas fa-cart-shopping"></i>
+                </figure>
+                <p class="my-auto ml-4 text-lg  hover:text-teal-400"><a href="{% url 'frontend:orders' %}">Order Online</a></p>
+           </div>
+            <div class="flex bg-teal-100 py-4 px-8">
+
+                <figure>
+                   <p class="p-4 w-16 h-16 bg-teal-700 aspect-square rounded-full grid place-content-center text-teal-100">
+                    <i class="fas fa-phone"></i>
+                </figure>
+                <p class="my-auto ml-4 text-lg  "><a href="#">Consultancy</a></p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!--Who we are-->
+<section title="Who are we">
+    <div class="container mx-auto">
+        <div class="grid sm:grid-cols-2 gap-4">
+            <figure>
+                <img src="{% static 'images/im13.jpg' %}"
+                    alt="">
+            </figure>
+            <main class="grid content-center">
+                <h2 class="text-teal-600 text-lg font-bold">Our Story</h2>
+                <h3 class="text-teal-900 text-3xl font-semibold">Who are we?</h3>
+                <p class="mt-6">
+                    Everyone should have access to high-quality and affordable medical care. 
+                    This idea serves as the foundation of our mission and permeates all areas of our business 
+                    operations. At Marianna, we run a specialized pharmacy, and one of our specialties is
+                    making sure that our customers can always find oncology medications and other
+                    difficult-to-find specialized medications. We also offer community pharmacy services in 
+                     to the highly specialized pharmaceutical services.
+                </p>
+            </main>
+        </div>
+    </div>
+</section>
+
+<section title="mission">
+    <div class="container mx-auto py-16">
+        <h2 class="text-teal-600 text-lg font-bold text-center">Together We Can Create</h2>
+        <h3 class="text-teal-900 text-3xl font-semibold text-center">Enhancing Lifestyle and Performance</h3>
+        <div class="grid grid-cols-2 gap-8 mt-6">
+            <div class="text-center outline outline-1 p-8 rounded-md outline-gray-200">
+                <h4 class="text-xl font-semibold">Our Mission</h4>
+                <p>To provide exceptional pharmaceutical care and improve the quality of life for our community by delivering safe, effective, and accessible medications 
+                     and healthcare services.
+                     </p>
+            </div>
+            <div class="text-center outline outline-1 p-8 rounded-md outline-gray-200">
+                <h4 class="text-xl font-semibold">Our <font colour="teal">Vision</font></h4>
+                <p>To be the trusted and leading pharmacy in our community, recognized for our
+                 commitment to patient care and innovative services and deliver drugs to each
+                  individual in any part of the country.
+                   </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Why choose us!-->
+<section class="relative">
+    <div class="sm:w-1/2">
+        <img src="{% static 'images/im10.jpg' %}" alt="" class="object-cover w-full">
+    </div>
+    <div class="absolute top-0 right-0 w-full h-full">
+        <div class="container mx-auto h-full">
+            <div class="grid md:grid-cols-2 gap-8 h-full">
+                <div class="hidden md:block"></div>
+                <div class="h-full">
+                    <main class="grid content-center h-full">
+                        <h2 class="text-teal-600 text-lg font-bold">Change Your Life</h2>
+                        <h3 class="text-teal-900 text-3xl font-semibold">Why Choose Us</h3>
+                        <p class="mt-6">
+                            We support specialty treatments used to treat rare and complex health problems and take a 
+                            hands-on approach to patient care that makes a meaningful imprint on the health and quality of life
+                            of each patient.
+                            
+                        </p>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container mx-auto py-16">
+    <div class="grid lg:grid-cols-2">
+        <!-- logo -->
+        <div class="flex items-center justify-center w-full h-96 lg:w-1/2">
+            <img class="object-cover w-full h-full mx-auto rounded-md lg:max-w-2xl"
+                src="{% static 'images/pharmlogo4.png' %}"
+                alt="glasses photo">
+        </div>
+        <!-- customer care line -->
+        <div class="grid grid-cols-3 outline outline-1 ">
+            <div class="">
+                <img src="{% static 'images/l2.jpg' %}" class="object-contain h-full">
+            </div>
+            <div class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 leading-normal col-span-2">
+              <div class="mb-4">
+                <p class="text-sm text-gray-600 flex items-center">
+                  <svg class="fill-current text-gray-500 w-3 h-3 mr-2" xmlns="{% static 'images/d6.jpg' %}" viewBox="0 0 20 20">
+                    <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+                  </svg>
+                  Customer care line
+                </p>
+                <div class="text-gray-900 font-bold text-xl mb-2">0762517261 0R 0758261726</div>
+                <p class="text-gray-700 text-base">
+                    Our Customer care line is happy to take your call, inquiries, purchases, delivery times, complaints and compliments.
+                    Call us anytime between 7am – 10pm, 7 days of the week..</p>
+              </div>
+              <div class="flex items-center">
+                <img class="w-10 h-10 rounded-full mr-4" src="{% static 'images/d6.jpg' %}" alt="Avatar of Jonathan Reinink">
+                <div class="text-sm">
+                  <p class="text-gray-900 leading-none">Marianna Turmeshenko</p>
+                  <p class="text-gray-600">June 23</p>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+<div class="fixed inset-x-0 lg:inset-x-auto bottom-6 lg:right-8 xl:right-10 xl:bottom-8">
+
+</div>
+
+
+
+{% endblock content %}

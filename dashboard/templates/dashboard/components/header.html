@@ -1,0 +1,13 @@
+{% load static %}
+
+<header class="bg-grey-100">
+   <div class="p-2 flex justify-between">
+      <div>
+         Welcome:
+         <span class="font-bold">{{ request.user }}</span>
+      </div>
+      <a href="#" class="text-red-500">
+         Logout
+      </a>
+   </div>
+</header>

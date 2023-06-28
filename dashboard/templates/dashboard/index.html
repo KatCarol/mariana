@@ -1,0 +1,31 @@
+{% extends 'dashboard/_base.html' %}
+
+
+{% block content %}
+<main>
+    <section title="actions" class="grid grid-flow-col gap-8">
+        <!-- record a sale -->
+        <div class="py-4 px-8 rounded-xl bg-teal-500 shadow-md transition-shadow hover:shadow-xl">
+            <a href="{% url 'dashboard:invoice-create' %}" class="flex gap-8">
+                <div>
+                    <i class="fas fa-money-check-dollar text-3xl"></i>
+                </div>
+                <div class="grid">
+                    <span class="grid content-center">Record a Sale</span>
+                </div>
+            </a>
+        </div>
+        <!-- add new stock -->
+        <div class="py-4 px-8 rounded-xl bg-amber-500 shadow-md transition-shadow hover:shadow-xl">
+            <a href="{% url 'dashboard:stock-in' %}" class="flex gap-8">
+                <div>
+                    <i class="fas fa-folder-plus text-3xl"></i>
+                </div>
+                <div class="grid">
+                    <span class="grid content-center">Add new Stock</span>
+                </div>
+            </a>
+        </div>
+    </section>
+</main>
+{% endblock content %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %} {% load static %}
+
+{% block content %}
+<section title="our services" class="py-16">
+    <h2 class="text-teal-500 mb-4 text-sm font-bold text-center uppercase w-fit mx-auto">Have a glance at</h2>
+    <h3 class="text-teal-900 text-5xl mb-6 font-bold text-center uppercase">Our Services</h3>
+    <p class="text-center max-w-lg mx-auto">
+        We have a range of medication, accessories and beauty products for your selection. Our trained specialists are on standby for efficiency at hand. Please select an item and check out. Timely delivery will then be arranged.
+    </p>
+    <main class="my-8 mt-16">
+        <div class="container mx-auto grid gap-16">
+            <div class="grid md:grid-cols-2 gap-8">
+                <figure class="order-1">
+                    <img src="{% static 'images/cute.jpg' %}" alt="" class="aspect-video object-cover w-full">
+                </figure>
+                <div class="order-2">
+                    <h2 class="text-teal-900 text-3xl font-bold  hover:text-teal-400"><a href="{% url 'frontend:products' %}">Pharmacy</a></h2>
+                    <p class="my-4">
+                        Marianna Pharmacy has been Uganda’s first choice in pharmacies with
+                         recommendations from dispensaries, family clinics, wound-care clinics
+                          and comprehensive self-medication centres. As a leading specialist 
+                          in beauty, healthy food, sport supplements, health and well-being, 
+                        we offer the widest ranges in these categories and expert advice.
+                        Click to view our products.
+                    </p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <figure class="order-2">
+                    <img src="{% static 'images/on2.jpg' %}" alt="" class="aspect-video object-cover w-full">
+                </figure>
+                <div class="order-1 text-right">
+                    <h2 class="text-teal-900 text-3xl font-bold  hover:text-teal-400"><a href="{% url 'frontend:orders' %}">Order Online</a></h2>
+                    <p class="my-4">
+                        After prescriptions have been approved, you can make your orders 
+                        and they will be approved.
+                    </p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <figure class="order-1">
+                    <img src="{% static 'images/img2.jpg' %}" alt="" class="aspect-video object-cover w-full">
+                </figure>
+                <div class="order-2">
+                    <h2 class="text-teal-900 text-3xl font-bold">Delivery Services</h2>
+                    <p class="my-4">
+                        Our delivery is very reliable, and we can find you anywhere around 
+                        the country.
+                    
+                    </p>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <figure class="order-2">
+                    <img src="{% static 'images/im14.jpg' %}" alt="" class="aspect-video object-cover w-full">
+                </figure>
+                <div class="order-1 text-right">
+                    <h2 class="text-teal-900 text-3xl font-bold">Consultancy</h2>
+                    <p class="my-4">
+                        Our Consultancy Services are discreet and we offer a variety of 
+                        information and prescriptions on the same day from our leading experts.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+</section>
+{% endblock content %}

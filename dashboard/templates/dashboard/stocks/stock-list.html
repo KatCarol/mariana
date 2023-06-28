@@ -1,0 +1,19 @@
+{% extends 'dashboard/_base.html' %} {% load static %}
+
+
+{% block content %}
+<table class="p-2">
+    <thead>
+        <th>Stock Date</th>
+        <th>Batches</th>
+    </thead>
+    <tbody>
+        {% for stock in stocks %}
+            <tr>
+                <td>{{ stock.date }}</td>
+                <td>{{ stock.batches.count }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

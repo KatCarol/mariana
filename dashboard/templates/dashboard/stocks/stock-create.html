@@ -1,0 +1,105 @@
+{% extends 'dashboard/_base.html' %} {% load static %}
+
+
+{% block content %}
+<form method="post" class="" x-data="{
+    drugs: null,
+    batch_count: 1,
+    fetchData(){
+        fetch('{% url 'api:drugs' %}', {method: 'GET'})
+        .then((response) => response.json())
+        .then((json) => this.drugs = json.data)
+    },
+    addBatch() {
+        const formsetsContainer = document.getElementById('formsets-container')
+        this.batch_count++
+        const formset = document.createElement('fieldset');
+        formset.classList.add('formset');
+        formset.classList.add('py-4');
+        formset.id = `batch-${this.batch_count}`
+        formset.innerHTML = `
+            <legend class='font-semibold text-xl text-teal-950'>Batch ${this.batch_count} <i
+                    class='fas fa-circle-xmark text-red-600 ml-3'
+                    x-on:click='deleteFormset(\`batch-${this.batch_count}\`)'></i></legend>
+            <div class='grid w-full gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+                <div class='grid'>
+                    <label class='font-semibold text-teal-950'>Choose Drug</label>
+                    <select title='Drug' name='drug'
+                        class='w-full p-2 rounded-lg bg-white focus-visible:outline-teal-500' required>
+                        <option value=''>------------</option>
+                        <template x-for='drug in drugs'>
+                            <option x-bind:value='drug.id' x-text='\`\${drug.name} - \${drug.manufacturer}\`'
+                                class='overflow-hidden'></option>
+                        </template>
+                    </select>
+                </div>
+                <div class='grid'>
+                    <label class='font-semibold text-teal-950'>Quantity</label>
+                    <input type='number' name='quantity' placeholder='Quantity'
+                        class='w-full p-2 rounded-lg bg-white focus-visible:outline-teal-500' required>
+                </div>
+                <div class='grid'>
+                    <label class='font-semibold text-teal-950'>Batch Number</label>
+                    <input type='text' name='batch_number' placeholder='Batch Number'
+                        class='w-full p-2 rounded-lg bg-white focus-visible:outline-teal-500' required>
+                </div>
+                <div class='grid'>
+                    <label class='font-semibold text-teal-950'>Expiration Date</label>
+                    <input type='date' name='expiration_date' placeholder='Expiration Date'
+                        class='w-full p-2 rounded-lg bg-white focus-visible:outline-teal-500' required>
+                </div>
+            </div>
+        `;
+        formsetsContainer.appendChild(formset);
+    },
+    deleteFormset(batch){
+        document.getElementById(batch).remove()
+    }
+}" x-init="fetchData()">
+    {% csrf_token %}
+
+    <div id="formsets-container">
+        <fieldset class="formset py-4" id="batch-1">
+            <legend class="font-semibold text-xl text-teal-950">Batch 1 <i class="fas fa-circle-xmark text-red-600 ml-3"
+                    x-on:click="deleteFormset('batch-1')"></i></legend>
+            <div class="grid w-full gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <div class="grid">
+                    <label class="font-semibold text-teal-950">Choose Drug</label>
+                    <select title="Drug" name="drug"
+                        class="w-full p-2 rounded-lg bg-white focus-visible:outline-teal-500" required>
+                        <option value="">------------</option>
+                        <template x-for="drug in drugs">
+                            <option x-bind:value="drug.id" x-text="drug.name + ' - ' + drug.manufacturer"
+                                class="overflow-hidden"></option>
+                        </template>
+                    </select>
+                </div>
+                <div class="grid">
+                    <label class="font-semibold text-teal-950">Quantity</label>
+                    <input type="number" name="quantity" placeholder="Quantity"
+                        class="w-full p-2 rounded-lg bg-white focus-visible:outline-teal-500" required>
+                </div>
+                <div class="grid">
+                    <label class="font-semibold text-teal-950">Batch Number</label>
+                    <input type="text" name="batch_number" placeholder="Batch Number"
+                        class="w-full p-2 rounded-lg bg-white focus-visible:outline-teal-500" required>
+                </div>
+                <div class="grid">
+                    <label class="font-semibold text-teal-950">Expiration Date</label>
+                    <input type="date" name="expiration_date" placeholder="Expiration Date"
+                        class="w-full p-2 rounded-lg bg-white focus-visible:outline-teal-500" required>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="flex gap-4 mt-6">
+        <button type="submit" class="py-4 px-8 bg-sky-500 hover:bg-sky-600 rounded-xl text-lg "><i
+                class="fas fa-cloud-arrow-up text-lg mr-2"></i><span>Upload</span></button>
+
+        <button type="button" x-on:click="addBatch()"
+            class="py-4 px-8 bg-teal-400 hover:bg-teal-500 rounded-xl text-lg "><i
+                class="fas fa-circle-plus text-lg mr-2"></i><span>Add Batch</span></button>
+    </div>
+</form>
+{% endblock content %}

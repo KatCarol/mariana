@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% load static %}
+
+{% block content %}
+
+<h2 class="text-teal-500 mb-4 text-sm font-bold text-center uppercase w-fit mx-auto"></h2>
+ <h3 class="text-teal-900 text-5xl mb-6 font-bold text-center uppercase">PRODUCTS</h3>
+ 
+
+
+
+
+
+
+
+<div class="fixed inset-x-0 lg:inset-x-auto bottom-6 lg:right-8
+  xl:right-10 xl:bottom-8">
+</div>
+
+{% endblock content %}

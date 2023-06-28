@@ -1,0 +1,23 @@
+{% extends 'dashboard/_base.html' %} {% load static %}
+
+
+{% block content %}
+<table class="p-2">
+    <thead>
+        <th>Invoice Number</th>
+        <th>Date</th>
+        <th>Total Items</th>
+        <th>Total Price</th>
+    </thead>
+    <tbody>
+        {% for invoice in invoices %}
+        <tr>
+            <td>{{ invoice.invoice_number }}</td>
+            <td>{{ invoice.date }}</td>
+            <td>{{ invoice.total_items }}</td>
+            <td>{{ invoice.total_price }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
