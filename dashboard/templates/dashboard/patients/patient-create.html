@@ -1,12 +1,15 @@
-{% extends 'dashboard/patients/base.html' %}
+{% extends 'dashboard/patients/base.html' %} {% load crispy_forms_filters %}
 
 
 {% block page %}
 <div class="overflow-x-auto">
     <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center font-sans overflow-hidden">
         <div class="w-full lg:w-5/6">
+            <header class="py-16">
+                <h1 class="font-semibold text-3xl text-teal-950 ">New patient form</h1>
+            </header>
             <div class="flex justify-between py-2">
-                <a href="{% url 'dashboard:diagnosis-list' %}" class="text-blue-600 font-medium">
+                <a href="{% url 'dashboard:diagnosis-list' %}" class="text-amber-600 font-medium">
                     <i class="fas fa-arrow-left"></i>
                     Back to record list
                 </a>
@@ -25,13 +28,17 @@
                         {{ form|crispy }}
                     </div>
                     <div id="batch-formset" class="grid gap-8">
+                        {{ diagnosis_formset.management_form }}
+                        
+                        {% for form in diagnosis_formset %}
                         <div class="batch-form grid border p-4">
-                            <div class="">{{ diagnosis_form|crispy }}</div>
+                            <div class="">{{ form|crispy }}</div>
                         </div>
+                        {% endfor %}
                     </div>
                     <div class="flex gap-4 mt-8">
                         <button type="submit" class="py-2 px-4 bg-teal-500 rounded-xl">
-                            <i class="fas fa-cloud-arrow-up mr-2"></i>Save Recors
+                            <i class="fas fa-cloud-arrow-up mr-2"></i>Save Record
                         </button>
                         <!-- <button type="button" id="add-batch-btn">
                             <i class="far fa-square-plus mr-2"></i>Add batch

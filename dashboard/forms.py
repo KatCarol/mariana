@@ -12,9 +12,11 @@ class PatientForm(forms.ModelForm):
 class DiagnosisForm(forms.ModelForm):
     class Meta:
         model = Diagnosis
-        exclude = ('patient',)
+        fields = '__all__'
 
 class DiagnosisFormFull(forms.ModelForm):
     class Meta:
         model = Diagnosis
         fields = '__all__'
+
+DiagnosisFormSet = forms.inlineformset_factory(Patient, Diagnosis, form=DiagnosisForm, extra=1, max_num=1)

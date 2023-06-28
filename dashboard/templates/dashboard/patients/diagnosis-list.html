@@ -5,6 +5,20 @@
 <div class="overflow-x-auto">
     <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center font-sans overflow-hidden">
         <div class="w-full lg:w-5/6">
+            <header class="py-16">
+                <h1 class="font-semibold text-3xl text-teal-950 ">All Patient records</h1>
+            </header>
+            <div class="flex justify-between py-2">
+                <a href="{% url 'dashboard:patient-list' %}" class="text-blue-600 font-medium">
+                    <i class="fas fa-arrow-left"></i>
+                    View patient list
+                </a>
+                
+                <a href="{% url 'dashboard:patient-create' %}" class="text-blue-600 font-medium">
+                    <i class="fas fa-arrow-left"></i>
+                    New Record
+                </a>
+            </div>
             <div class="bg-white shadow-md rounded my-6">
                 <table class="min-w-max w-full table-auto">
                     <thead>

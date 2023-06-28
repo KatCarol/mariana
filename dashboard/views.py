@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.db.models import Sum
 from django.views.generic import ListView, CreateView, DetailView
 
-from dashboard.forms import DiagnosisForm, DiagnosisFormFull, PatientForm
+from dashboard.forms import DiagnosisForm, DiagnosisFormFull, DiagnosisFormSet, PatientForm
 
 from .models import Diagnosis, Drug, Batch, Invoice, Patient, SalesItem, Stock
 
@@ -120,22 +120,22 @@ class PatientCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['diagnosis_form'] = DiagnosisForm(self.request.POST, prefix='diagnosis_form')
+            context['diagnosis_formset'] = DiagnosisFormSet(self.request.POST, prefix='diagnosis_formset')
         else:
-            context['diagnosis_form'] = DiagnosisForm(prefix='diagnosis_form')
+            context['diagnosis_formset'] = DiagnosisFormSet(prefix='diagnosis_formset')
         context['existing'] = False
         return context
     
     def form_valid(self, form):
         context = self.get_context_data()
-        diagnosis_form = context['diagnosis_form']
-        print(diagnosis_form)
-        if not diagnosis_form.is_valid():
-            return self.render_to_response(self.get_context_data(form=form))
-        self.object = form.save()
-        diagnosis_form.instance = self.object
-        print(diagnosis_form)
-        diagnosis_form.save()
+        diagnosis_formset = context['diagnosis_formset']
+        # print(diagnosis_formset)
+        if diagnosis_formset.is_valid():
+            self.object = form.save()
+            diagnosis_formset.instance = self.object
+            diagnosis_formset.save()
+            print(diagnosis_formset)
+            return redirect(self.get_success_url())
+        return self.render_to_response(self.get_context_data(form=form))
 
-        return redirect(self.get_success_url())
 

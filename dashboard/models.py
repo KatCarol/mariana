@@ -81,10 +81,10 @@ class Diagnosis(models.Model):
         return self.patient.name
     
     def getDate(self):
-        return self.date
+        return self.date.date()
     
     def getTime(self):
-        return self.date
+        return self.date.time()
 
 
 class ProductCategory(models.Model):
