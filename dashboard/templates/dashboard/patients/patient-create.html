@@ -1,0 +1,46 @@
+{% extends 'dashboard/patients/base.html' %}
+
+
+{% block page %}
+<div class="overflow-x-auto">
+    <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center font-sans overflow-hidden">
+        <div class="w-full lg:w-5/6">
+            <div class="flex justify-between py-2">
+                <a href="{% url 'dashboard:diagnosis-list' %}" class="text-blue-600 font-medium">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to record list
+                </a>
+                
+                {% if existing %}
+                <a href="{% url 'dashboard:patient-create' %}" class="text-blue-600 font-medium">
+                    <i class="fas fa-arrow-left"></i>
+                    New Patient
+                </a>
+                {% endif %}
+            </div>
+            <div class="bg-grey-50 shadow-md rounded-xl my-6 p-8">
+                <form method="post" class=" accent-teal-500">
+                    {% csrf_token %}
+                    <div class="form mb-8">
+                        {{ form|crispy }}
+                    </div>
+                    <div id="batch-formset" class="grid gap-8">
+                        <div class="batch-form grid border p-4">
+                            <div class="">{{ diagnosis_form|crispy }}</div>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 mt-8">
+                        <button type="submit" class="py-2 px-4 bg-teal-500 rounded-xl">
+                            <i class="fas fa-cloud-arrow-up mr-2"></i>Save Recors
+                        </button>
+                        <!-- <button type="button" id="add-batch-btn">
+                            <i class="far fa-square-plus mr-2"></i>Add batch
+                        </button> -->
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page %}

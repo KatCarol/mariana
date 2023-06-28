@@ -19,6 +19,7 @@ class Batch(models.Model):
     stock = models.ForeignKey('Stock', on_delete=models.CASCADE, related_name='batches')
     batch_number = models.CharField(max_length=100, null=True)
     quantity = models.PositiveIntegerField()
+    quantity_stocked = models.PositiveIntegerField(null=True)
     expiration_date = models.DateField()
     time_registered = models.DateTimeField(auto_now_add=True)
     is_expired = models.BooleanField(default=False)
@@ -78,6 +79,12 @@ class Diagnosis(models.Model):
 
     def __str__(self) -> str:
         return self.patient.name
+    
+    def getDate(self):
+        return self.date
+    
+    def getTime(self):
+        return self.date
 
 
 class ProductCategory(models.Model):

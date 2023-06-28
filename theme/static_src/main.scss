@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@mixin sm{
+    @media (max-width: 640px){
+        @content;
+    }
+}
+@mixin md{
+    @media (max-width: 768px){
+        @content;
+    }
+}
+@mixin lg{
+    @media (max-width: 1024px){
+        @content;
+    }
+}
+@mixin xl{
+    @media (max-width: 1280px){
+        @content;
+    }
+}
+@mixin xl2{
+    @media (max-width: 1536px){
+        @content;
+    }
+}
+
+fieldset{
+    @apply bg-grey-50;
+    .collapse-group{
+        @apply grid md:grid-cols-8 xl:grid-cols-12 gap-8 py-4;
+        .input-set{
+            @apply flex gap-8 col-span-4;
+            & > label{
+                @apply grid content-center whitespace-nowrap;
+            }
+            .input{
+                @apply p-2 bg-grey-100 outline-grey-400 outline-1 outline focus-visible:outline-primary-400 rounded-xl w-full;
+            }
+            .radio-label{
+                @apply font-semibold;
+            }
+        }
+    }
+}
+
+.main-nav{
+    @apply overflow-x-hidden overflow-y-auto flex-1;
+    ul{
+        li{
+            @apply w-full overflow-y-visible;
+            &.active{
+                a{
+                    @apply border-l-primary-500;
+                    i{
+                        @apply text-primary-500;
+                    }
+                }
+            }
+            a{
+                @apply text-grey-700 p-4 border-l-4 border-l-transparent grid grid-flow-col whitespace-nowrap items-center transition-all relative;
+                grid-template-columns: auto 1fr;
+                i{
+                    @apply w-9 text-center text-xl;
+                }
+                &:hover{
+                    @apply border-l-primary-900 bg-grey-50;
+                    .hidemenu{
+                        @include lg{
+                            @apply bg-white opacity-100;
+                            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+                        }
+                    }
+                }
+                .hidemenu{
+                    @apply transition-all;
+                    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+                    transition: clip-path 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    @include lg{
+                        @apply opacity-0 fixed left-16;
+                        clip-path: polygon(0 0, 0% 0, 0% 0%, 0% 0%);
+                    }
+                }
+            }
+        }
+    }
+}
+
+table.table{
+    @apply w-full bg-white text-left p-2;
+    thead{
+        @apply border-b-grey-300 border-b;
+    }
+    th, td{
+        @apply p-2 px-4;
+    }
+    tr{
+        &:nth-child(even){
+            @apply bg-grey-100;
+        }
+    }
+}

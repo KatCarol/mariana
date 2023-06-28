@@ -1,8 +1,10 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.db.models import Sum
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView, DetailView
 
-from .models import Drug, Batch, Invoice, Patient, SalesItem, Stock
+from dashboard.forms import DiagnosisForm, DiagnosisFormFull, PatientForm
+
+from .models import Diagnosis, Drug, Batch, Invoice, Patient, SalesItem, Stock
 
 
 def drug_list(request):
@@ -24,7 +26,7 @@ def stockInDrugs(request):
 
         for drug_id, quantity, batch_number, expiration_date in zip(drug_ids, quantities, batch_numbers, expiration_dates):
             drug = Drug.objects.get(id=drug_id)
-            Batch.objects.create(drug=drug, stock=stock, quantity=quantity, batch_number=batch_number, expiration_date=expiration_date)
+            Batch.objects.create(drug=drug, stock=stock, quantity=quantity, batch_number=batch_number, expiration_date=expiration_date, quantity_stocked=quantity)
 
         return redirect('dashboard:stock-in')
 
@@ -54,7 +56,7 @@ def pick_from_batch(batch, quantity):
         batch.save()
         return quantity
         
-# Invoice create view
+# Invoices ===============================
 def invoiceCreateView(request):
     if request.method == 'POST':
         drug_ids = request.POST.getlist('drug')
@@ -81,15 +83,59 @@ def invoiceCreateView(request):
     context = {}
     return render(request, 'dashboard/invoices/invoice-create.html', context)
 
-
 class InvoiceListView(ListView):
     model = Invoice
     context_object_name = 'invoices'
     template_name = "dashboard/invoices/invoice-list.html"
 
 
+# Patients =============================
 class PatientListView(ListView):
     model = Patient
     template_name = "dashboard/patients/patient-list.html"
+
+
+class DiagnosisListView(ListView):
+    model = Diagnosis
+    template_name = "dashboard/patients/diagnosis-list.html"
+
+
+class DiagnosisCreateView(CreateView):
+    model = Diagnosis
+    form_class = DiagnosisFormFull
+    template_name = "dashboard/patients/patient-create.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['existing'] = True
+        return context
+
+
+class PatientCreateView(CreateView):
+    model = Patient
+    form_class = PatientForm
+    template_name = "dashboard/patients/patient-create.html"
+    success_url = 'dashboard:patient-list'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['diagnosis_form'] = DiagnosisForm(self.request.POST, prefix='diagnosis_form')
+        else:
+            context['diagnosis_form'] = DiagnosisForm(prefix='diagnosis_form')
+        context['existing'] = False
+        return context
     
+    def form_valid(self, form):
+        context = self.get_context_data()
+        diagnosis_form = context['diagnosis_form']
+        print(diagnosis_form)
+        if not diagnosis_form.is_valid():
+            return self.render_to_response(self.get_context_data(form=form))
+        self.object = form.save()
+        diagnosis_form.instance = self.object
+        print(diagnosis_form)
+        diagnosis_form.save()
+
+        return redirect(self.get_success_url())
 

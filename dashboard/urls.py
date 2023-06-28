@@ -1,6 +1,6 @@
 from django.urls import path
 
-from dashboard.views import InvoiceListView, StockListView, drug_list, indexView, invoiceCreateView, stockInDrugs
+from dashboard.views import DiagnosisCreateView, DiagnosisListView, InvoiceListView, PatientCreateView, PatientListView, StockListView, drug_list, indexView, invoiceCreateView, stockInDrugs
 
 app_name = 'dashboard'
 
@@ -11,4 +11,9 @@ urlpatterns = [
     path('stock/in/', stockInDrugs, name='stock-in'),
     path('sale/', invoiceCreateView, name='invoice-create'),
     path('invoicelist/', InvoiceListView.as_view(), name='invoice-list'),
+    # patients
+    path('patients/', PatientListView.as_view(), name='patient-list'),
+    path('patients/new/', PatientCreateView.as_view(), name='patient-create'),
+    path('patients/records/', DiagnosisListView.as_view(), name='diagnosis-list'),
+    path('patients/records/new/', DiagnosisCreateView.as_view(), name='diagnosis-create'),
 ]
