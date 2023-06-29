@@ -11,7 +11,7 @@ class DrugSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Drug
-        fields = ['name','description','manufacturer','selling_price','quantity']
+        fields = ['pk','name','description','manufacturer','selling_price','quantity']
 
 class StockSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 class Drug(models.Model):
     name = models.CharField(max_length=100)
@@ -26,6 +27,18 @@ class Batch(models.Model):
 
     def __str__(self):
         return f"{self.drug.name} - {self.expiration_date}"
+    
+    def isExpired(self):
+        date_btn = date.today() - self.expiration_date
+        days_btn_int = int(str(date_btn).split(' ')[0])
+        if days_btn_int < 1:
+            return True
+        return False
+    
+    def daysToExpiry(self):
+        date_btn = date.today() - self.expiration_date
+        days_btn_int = int(str(date_btn).split(' ')[0])
+        return days_btn_int
 
 
 class Stock(models.Model):
@@ -46,11 +59,11 @@ class Invoice(models.Model):
         return self.id
     
     def total_items(self):
-        return sum(item.quantity for item in self.sales_items)
+        return sum(item.quantity for item in self.sales_items.all())
     
     def total_price(self):
         return sum(
-            (item.drug.selling_price * item.quantity) for item in self.sales_items
+            (item.drug.selling_price * item.quantity) for item in self.sales_items.all()
         )
     
 
@@ -68,9 +81,12 @@ class Patient(models.Model):
     contact = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
 
+    def __str__(self) -> str:
+        return f'{self.pk}: {self.name}'
+
 
 class Diagnosis(models.Model):
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='records')
     diagnosis = models.CharField(max_length=50)
     details = models.TextField(null=True, blank=True)
     prescription = models.TextField(null=True, blank=True)

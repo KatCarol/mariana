@@ -2,7 +2,15 @@
 
 
 {% block content %}
-<form method="post" class="" x-data="{
+<div class="overflow-x-auto">
+    <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center font-sans overflow-hidden">
+        <div class="w-full lg:w-5/6 xl:w-full mx-8">
+            <header class="py-16">
+                <h1 class="font-semibold text-3xl text-teal-950 ">Add Stock</h1>
+            </header>
+            
+            <div class="bg-white shadow-md rounded my-6 p-4">
+                <form method="post" class="" x-data="{
     drugs: null,
     batch_count: 1,
     fetchData(){
@@ -27,10 +35,10 @@
                     <select title='Drug' name='drug'
                         class='w-full p-2 rounded-lg bg-white focus-visible:outline-teal-500' required>
                         <option value=''>------------</option>
-                        <template x-for='drug in drugs'>
-                            <option x-bind:value='drug.id' x-text='\`\${drug.name} - \${drug.manufacturer}\`'
-                                class='overflow-hidden'></option>
-                        </template>
+                        {% for drug in drugs %}
+                            <option value='{{drug.id}}'
+                            class='overflow-hidden'>{{ drug.name }}  - {{drug.manufacturer}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class='grid'>
@@ -68,11 +76,12 @@
                     <select title="Drug" name="drug"
                         class="w-full p-2 rounded-lg bg-white focus-visible:outline-teal-500" required>
                         <option value="">------------</option>
-                        <template x-for="drug in drugs">
-                            <option x-bind:value="drug.id" x-text="drug.name + ' - ' + drug.manufacturer"
-                                class="overflow-hidden"></option>
-                        </template>
+                            {% for drug in drugs %}
+                            <option value="{{drug.id}}"
+                            class="overflow-hidden">{{ drug.name }}  - {{drug.manufacturer}}</option>
+                            {% endfor %}
                     </select>
+                    
                 </div>
                 <div class="grid">
                     <label class="font-semibold text-teal-950">Quantity</label>
@@ -102,4 +111,9 @@
                 class="fas fa-circle-plus text-lg mr-2"></i><span>Add Batch</span></button>
     </div>
 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}

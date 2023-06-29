@@ -2,30 +2,61 @@
 
 
 {% block content %}
-<main>
-    <section title="actions" class="grid grid-flow-col gap-8">
-        <!-- record a sale -->
-        <div class="py-4 px-8 rounded-xl bg-teal-500 shadow-md transition-shadow hover:shadow-xl">
-            <a href="{% url 'dashboard:invoice-create' %}" class="flex gap-8">
-                <div>
-                    <i class="fas fa-money-check-dollar text-3xl"></i>
-                </div>
-                <div class="grid">
-                    <span class="grid content-center">Record a Sale</span>
-                </div>
-            </a>
+<div class="overflow-x-auto">
+    <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center font-sans overflow-hidden">
+        <div class="w-full lg:w-5/6 xl:w-full mx-8">
+            
+            <div class="bg-white shadow-md rounded my-6 p-4">
+                <section title="info" class="grid grid-flow-col gap-8 my-8">
+                    <!-- expired drugs -->
+                    <div class="py-4 px-8 rounded-xl bg-teal-500 shadow-md transition-shadow hover:shadow-xl">
+                        <a href="#" class="flex gap-8">
+                            <div class="grid">
+                                <span class="text-4xl font-bold">{{exp_count}}</span>
+                                <span class="grid content-center">Expired Batches</span>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+                <section title="actions" class="grid grid-flow-col gap-8">
+                    <!-- record a sale -->
+                    <div class="py-4 px-8 rounded-xl bg-teal-500 shadow-md transition-shadow hover:shadow-xl">
+                        <a href="{% url 'dashboard:invoice-create' %}" class="flex gap-8">
+                            <div>
+                                <i class="fas fa-money-check-dollar text-3xl"></i>
+                            </div>
+                            <div class="grid">
+                                <span class="grid content-center">Record a Sale</span>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- add new stock -->
+                    <div class="py-4 px-8 rounded-xl bg-amber-500 shadow-md transition-shadow hover:shadow-xl">
+                        <a href="{% url 'dashboard:stock-in' %}" class="flex gap-8">
+                            <div>
+                                <i class="fas fa-folder-plus text-3xl"></i>
+                            </div>
+                            <div class="grid">
+                                <span class="grid content-center">Add new Stock</span>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- add new record -->
+                    <div class="py-4 px-8 rounded-xl bg-blue-500 shadow-md transition-shadow hover:shadow-xl">
+                        <a href="{% url 'dashboard:diagnosis-create' %}" class="flex gap-8">
+                            <div>
+                                <i class="fas fa-folder-plus text-3xl"></i>
+                            </div>
+                            <div class="grid">
+                                <span class="grid content-center">Add Patient Record</span>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+                {% include 'dashboard/components/calendar.html' %}
+            </div>
         </div>
-        <!-- add new stock -->
-        <div class="py-4 px-8 rounded-xl bg-amber-500 shadow-md transition-shadow hover:shadow-xl">
-            <a href="{% url 'dashboard:stock-in' %}" class="flex gap-8">
-                <div>
-                    <i class="fas fa-folder-plus text-3xl"></i>
-                </div>
-                <div class="grid">
-                    <span class="grid content-center">Add new Stock</span>
-                </div>
-            </a>
-        </div>
-    </section>
-</main>
+    </div>
+</div>
 {% endblock content %}

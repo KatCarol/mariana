@@ -1,0 +1,26 @@
+{% extends 'dashboard/patients/base.html' %}
+
+
+{% block page %}
+<div class="overflow-x-auto">
+    <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center font-sans overflow-hidden">
+        <div class="w-full lg:w-5/6">
+            <header class="py-16">
+                <h1 class="font-semibold text-3xl text-teal-950 ">Delete {{ patient.name }}</h1>
+            </header>
+            
+            <div class="bg-white shadow-md rounded my-6">
+                <form method="post" class="w-full grid grid-cols-2">
+                    {% csrf_token %}
+                    <button class="px-8 py-2 bg-red-500">
+                        Confirm Delete
+                    </button>
+                    <button type="button">
+                        <a href="{% url 'dashboard:patient-list' %}">Cancel</a>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page %}

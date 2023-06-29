@@ -1,10 +1,12 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.db.models import Sum
-from django.views.generic import ListView, CreateView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 
 from dashboard.forms import DiagnosisForm, DiagnosisFormFull, DiagnosisFormSet, PatientForm
 
 from .models import Diagnosis, Drug, Batch, Invoice, Patient, SalesItem, Stock
+from datetime import date
 
 
 def drug_list(request):
@@ -12,7 +14,19 @@ def drug_list(request):
     return render(request, 'dashboard/drugs/drug-list.html', {'drugs': drugs})
 
 def indexView(request):
-    return render(request, 'dashboard/index.html', {})
+    batches = Batch.objects.filter(quantity__gt=0)
+    expiring_soon = []
+    for batch in batches:
+        days = batch.daysToExpiry()
+        if days < 31:
+            expiring_soon.append(batch)
+            
+    count = len(expiring_soon)
+    context = {
+        'expiring': expiring_soon,
+        'exp_count': count,
+    }
+    return render(request, 'dashboard/index.html', context)
 
 # stock create view
 def stockInDrugs(request):
@@ -36,12 +50,10 @@ def stockInDrugs(request):
     }
     return render(request, 'dashboard/stocks/stock-create.html', context)
 
-
 class StockListView(ListView):
     model = Stock
     context_object_name = 'stocks'
     template_name = "dashboard/stocks/stock-list.html"
-
 
 def pick_from_batch(batch, quantity):
     # case 1: batch quantity >= requested quantity
@@ -80,7 +92,9 @@ def invoiceCreateView(request):
 
         return redirect('dashboard:invoice-list')
 
-    context = {}
+    context = {
+        'drugs': Drug.objects.all(),
+    }
     return render(request, 'dashboard/invoices/invoice-create.html', context)
 
 class InvoiceListView(ListView):
@@ -88,17 +102,14 @@ class InvoiceListView(ListView):
     context_object_name = 'invoices'
     template_name = "dashboard/invoices/invoice-list.html"
 
-
 # Patients =============================
 class PatientListView(ListView):
     model = Patient
     template_name = "dashboard/patients/patient-list.html"
 
-
 class DiagnosisListView(ListView):
     model = Diagnosis
     template_name = "dashboard/patients/diagnosis-list.html"
-
 
 class DiagnosisCreateView(CreateView):
     model = Diagnosis
@@ -109,7 +120,6 @@ class DiagnosisCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context['existing'] = True
         return context
-
 
 class PatientCreateView(CreateView):
     model = Patient
@@ -138,4 +148,18 @@ class PatientCreateView(CreateView):
             return redirect(self.get_success_url())
         return self.render_to_response(self.get_context_data(form=form))
 
+class PatientDeleteView(DeleteView):
+    model = Patient
+    template_name = "dashboard/patients/patient-delete.html"
+    success_url = reverse_lazy('dashboard:patient-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['patient'] = self.object
+        return context
+
+class PatientDetailView(DetailView):
+    model = Patient
+    context_object_name = 'patient'
+    template_name = "dashboard/patients/patient-detail.html"
 
