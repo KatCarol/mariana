@@ -1,15 +1,15 @@
 from django.urls import path
 
-from dashboard.views import DiagnosisCreateView, DiagnosisListView, InvoiceListView, PatientCreateView, PatientDeleteView, PatientDetailView, PatientListView, StockListView, drug_list, indexView, invoiceCreateView, stockInDrugs
+from dashboard.views import DiagnosisCreateView, DiagnosisListView, InvoiceListView, PatientCreateView, PatientDeleteView, PatientDetailView, PatientListView, StockCreateView, StockListView, DrugListView, IndexView, InvoiceCreateView
 
 app_name = 'dashboard'
 
 urlpatterns = [
-    path('', indexView, name='index'),
-    path('drugs/', drug_list, name='drug-list'),
+    path('', IndexView.as_view(), name='index'),
+    path('drugs/', DrugListView.as_view(), name='drug-list'),
     path('stock/', StockListView.as_view(), name='stock-list'),
-    path('stock/in/', stockInDrugs, name='stock-in'),
-    path('sale/', invoiceCreateView, name='invoice-create'),
+    path('stock/in/', StockCreateView.as_view(), name='stock-in'),
+    path('sale/', InvoiceCreateView.as_view(), name='invoice-create'),
     path('invoicelist/', InvoiceListView.as_view(), name='invoice-list'),
     # patients
     path('patients/', PatientListView.as_view(), name='patient-list'),

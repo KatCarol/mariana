@@ -1,22 +1,24 @@
-{% extends 'base.html' %} {% load tailwind_filters, static %}
+{% extends 'auth_base.html' %} {% load crispy_forms_filters static %}
 
 {% block content %}
 
-<div class="max-w-lg mx-auto">
+<div class="max-w-lg mx-auto py-16">
 
     <div class="py-5 border-b border-gray-200">
-        <a class="hover:text-blue-500" href="{% url 'accounts:signup' %}">Don't have an account?</a>
+        <a class="hover:text-teal-500" href="{% url 'frontend:homepage' %}">
+            <i class="fas fa-home mr-2"></i>
+            Go back to Home</a>
     </div>
 
-    <form method="post" class="mt-5">
+    <form method="post" class="mt-5 accent-teal-500">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type='submit' class="w-full text-white bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded-md">
+        <button type='submit' class="w-full text-white bg-teal-500 hover:bg-teal-600 px-3 py-2 rounded-md">
             Login
         </button>
     </form>
     <div class="py-5 border-t border-gray-200 mt-5">
-        <a class="hover:text-blue-500" href="{% url 'accounts:reset-password' %}">Forgot password?</a>
+        <a class="hover:text-teal-500 text-teal-950" href="{% url 'accounts:reset-password' %}">Forgot password?</a>
     </div>
 </div>
 

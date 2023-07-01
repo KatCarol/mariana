@@ -1,36 +1,56 @@
-from django.shortcuts import redirect, render, get_object_or_404
+from typing import Any
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models.query import QuerySet
 from django.db.models import Sum
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
+from django.views import View
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView, TemplateView
 
 from dashboard.forms import DiagnosisForm, DiagnosisFormFull, DiagnosisFormSet, PatientForm
+from dashboard.mixins import ClinicianRequiredMixin, SalesAttendantRequiredMixin
 
 from .models import Diagnosis, Drug, Batch, Invoice, Patient, SalesItem, Stock
 from datetime import date
 
 
-def drug_list(request):
-    drugs = Drug.objects.annotate(total_quantity=Sum('batches__quantity'))
-    return render(request, 'dashboard/drugs/drug-list.html', {'drugs': drugs})
+# drugs
+class DrugListView(LoginRequiredMixin, ListView):
+    model = Drug
+    context_object_name = 'drugs'
+    template_name = "dashboard/drugs/drug-list.html"
 
-def indexView(request):
-    batches = Batch.objects.filter(quantity__gt=0)
-    expiring_soon = []
-    for batch in batches:
-        days = batch.daysToExpiry()
-        if days < 31:
-            expiring_soon.append(batch)
-            
-    count = len(expiring_soon)
-    context = {
-        'expiring': expiring_soon,
-        'exp_count': count,
-    }
-    return render(request, 'dashboard/index.html', context)
+    def get_queryset(self) -> QuerySet[Any]:
+        # the default queryset returns all the Drug objects so we are adding the quanitty to each of them
+        return super().get_queryset().annotate(total_quantity=Sum('batches__quantity'))
+
+class IndexView(LoginRequiredMixin, View):
+    def get(self, request):
+        batches = Batch.objects.filter(quantity__gt=0)
+        expiring_soon = []
+        for batch in batches:
+            days = batch.daysToExpiry()
+            if days < 31:
+                expiring_soon.append(batch)
+                
+        count = len(expiring_soon)
+        context = {
+            'expiring': expiring_soon,
+            'exp_count': count,
+        }
+        return render(request, 'dashboard/index.html', context)
 
 # stock create view
-def stockInDrugs(request):
-    if request.method == 'POST':
+
+class StockCreateView(SalesAttendantRequiredMixin, View):
+    def get(self, request):
+        context = {
+            'stocks': Stock.objects.all(),
+            'drugs': Drug.objects.all(),
+        }
+        return render(request, 'dashboard/stocks/stock-create.html', context)
+    
+    def post(self, request):
         drug_ids = request.POST.getlist('drug')
         quantities = request.POST.getlist('quantity')
         batch_numbers = request.POST.getlist('batch_number')
@@ -42,22 +62,25 @@ def stockInDrugs(request):
             drug = Drug.objects.get(id=drug_id)
             Batch.objects.create(drug=drug, stock=stock, quantity=quantity, batch_number=batch_number, expiration_date=expiration_date, quantity_stocked=quantity)
 
-        return redirect('dashboard:stock-in')
+        return redirect('dashboard:stock-list')
 
-    context = {
-        'stocks': Stock.objects.all(),
-        'drugs': Drug.objects.all(),
-    }
-    return render(request, 'dashboard/stocks/stock-create.html', context)
-
-class StockListView(ListView):
+class StockListView(SalesAttendantRequiredMixin, ListView):
     model = Stock
     context_object_name = 'stocks'
     template_name = "dashboard/stocks/stock-list.html"
 
+    def get_queryset(self):
+        queryset = super(StockListView, self).get_queryset()
+        queryset = queryset.order_by('-date')
+        return queryset
+
+# Invoices ===============================
+
+# function to pick sold products from a batch
 def pick_from_batch(batch, quantity):
     # case 1: batch quantity >= requested quantity
     # case 2: batch quantity < requested quantity
+    quantity=int(quantity)
     if batch.quantity >= quantity:
         batch.quantity -= quantity
         batch.save()
@@ -67,16 +90,23 @@ def pick_from_batch(batch, quantity):
         batch.quantity = 0
         batch.save()
         return quantity
-        
-# Invoices ===============================
-def invoiceCreateView(request):
-    if request.method == 'POST':
+
+class InvoiceCreateView(SalesAttendantRequiredMixin, View):
+    def get(self, request):
+        context = {
+            'drugs': Drug.objects.all(),
+        }
+        return render(request, 'dashboard/invoices/invoice-create.html', context)
+
+    def post(self, request):
         drug_ids = request.POST.getlist('drug')
         quantities = request.POST.getlist('quantity')
 
         invoice = Invoice.objects.create()
 
-        for drug_id, quantity in zip(drug_ids, quantities):
+        for drug_id, quantity in zip(drug_ids, quantities): # loop through both lists of drug_ids and quantities
+
+            drug = Drug.objects.get(id=drug_id)
             if batches := Batch.objects.filter(drug=drug, quantity__gt=0).order_by('expiration_date'):
             
                 batch_count = 0
@@ -87,31 +117,25 @@ def invoiceCreateView(request):
                     batch_count+=1
             
             # TODO END
-            drug = Drug.objects.get(id=drug_id)
             SalesItem.objects.create(invoice=invoice, drug=drug, quantity=quantity)
 
         return redirect('dashboard:invoice-list')
 
-    context = {
-        'drugs': Drug.objects.all(),
-    }
-    return render(request, 'dashboard/invoices/invoice-create.html', context)
-
-class InvoiceListView(ListView):
+class InvoiceListView(SalesAttendantRequiredMixin, ListView):
     model = Invoice
     context_object_name = 'invoices'
     template_name = "dashboard/invoices/invoice-list.html"
 
 # Patients =============================
-class PatientListView(ListView):
+class PatientListView(ClinicianRequiredMixin, ListView):
     model = Patient
     template_name = "dashboard/patients/patient-list.html"
 
-class DiagnosisListView(ListView):
+class DiagnosisListView(ClinicianRequiredMixin, ListView):
     model = Diagnosis
     template_name = "dashboard/patients/diagnosis-list.html"
 
-class DiagnosisCreateView(CreateView):
+class DiagnosisCreateView(ClinicianRequiredMixin, CreateView):
     model = Diagnosis
     form_class = DiagnosisFormFull
     template_name = "dashboard/patients/patient-create.html"
@@ -121,7 +145,7 @@ class DiagnosisCreateView(CreateView):
         context['existing'] = True
         return context
 
-class PatientCreateView(CreateView):
+class PatientCreateView(ClinicianRequiredMixin, CreateView):
     model = Patient
     form_class = PatientForm
     template_name = "dashboard/patients/patient-create.html"
@@ -148,7 +172,7 @@ class PatientCreateView(CreateView):
             return redirect(self.get_success_url())
         return self.render_to_response(self.get_context_data(form=form))
 
-class PatientDeleteView(DeleteView):
+class PatientDeleteView(ClinicianRequiredMixin, DeleteView):
     model = Patient
     template_name = "dashboard/patients/patient-delete.html"
     success_url = reverse_lazy('dashboard:patient-list')
@@ -158,7 +182,7 @@ class PatientDeleteView(DeleteView):
         context['patient'] = self.object
         return context
 
-class PatientDetailView(DetailView):
+class PatientDetailView(ClinicianRequiredMixin, DetailView):
     model = Patient
     context_object_name = 'patient'
     template_name = "dashboard/patients/patient-detail.html"

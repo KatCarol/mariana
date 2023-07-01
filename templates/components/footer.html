@@ -36,17 +36,24 @@
                         <ul class="list-unstyled">
                             <li>
                                 <a class="text-blueGray-600 hover:text-blueGray-500  block pb-2 text-sm"
-                                    href="https://www.creative-tim.com/presentation?ref=njs-profile">Home</a>
+                                    href="{% url 'frontend:homepage' %}"><i class="fas fa-house mr-2"></i>Home</a>
                             </li>
                             
                 
                             <li>
                                 <a class="text-blueGray-600 hover:text-blueGray-800  block pb-2 text-sm"
-                                    href="https://www.github.com/creativetimofficial?ref=njs-profile">Services</a>
+                                    href="{% url 'frontend:services' %}"><i class="fas fa-gear mr-2"></i>Services</a>
                             </li>
                             <li>
                                 <a class="text-blueGray-600 hover:text-blueGray-800  block pb-2 text-sm"
-                                    href="https://www.creative-tim.com/bootstrap-themes/free?ref=njs-profile">Contact Us</a>
+                                    href="{% url 'frontend:contact' %}"><i class="fas fa-phone mr-2"></i>Contact Us</a>
+                            
+                            </li>
+                            <li>
+                                <a class="text-blueGray-600 hover:text-blueGray-800  block pb-2 text-sm"
+                                    href="{% url 'dashboard:index' %}">
+                                    <i class="fas fa-lock mr-2"></i>Admin
+                                </a>
                             
                             </li>
                         </ul>

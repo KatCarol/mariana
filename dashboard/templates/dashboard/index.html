@@ -8,6 +8,7 @@
             
             <div class="bg-white shadow-md rounded my-6 p-4">
                 <section title="info" class="grid grid-flow-col gap-8 my-8">
+                    {% if request.user.is_sales_attendant or request.user.is_admin or request.user.is_superuser %}
                     <!-- expired drugs -->
                     <div class="py-4 px-8 rounded-xl bg-teal-500 shadow-md transition-shadow hover:shadow-xl">
                         <a href="#" class="flex gap-8">
@@ -17,8 +18,10 @@
                             </div>
                         </a>
                     </div>
+                    {% endif %}
                 </section>
                 <section title="actions" class="grid grid-flow-col gap-8">
+                    {% if request.user.is_sales_attendant or request.user.is_admin or request.user.is_superuser %}
                     <!-- record a sale -->
                     <div class="py-4 px-8 rounded-xl bg-teal-500 shadow-md transition-shadow hover:shadow-xl">
                         <a href="{% url 'dashboard:invoice-create' %}" class="flex gap-8">
@@ -41,7 +44,9 @@
                             </div>
                         </a>
                     </div>
-                    <!-- add new record -->
+                    {% endif %}
+                    {% if request.user.is_clinician or request.user.is_admin or request.user.is_superuser %}
+                    <!-- patient record -->
                     <div class="py-4 px-8 rounded-xl bg-blue-500 shadow-md transition-shadow hover:shadow-xl">
                         <a href="{% url 'dashboard:diagnosis-create' %}" class="flex gap-8">
                             <div>
@@ -52,6 +57,20 @@
                             </div>
                         </a>
                     </div>
+                    {% endif %}
+                    {% if request.user.is_admin or request.user.is_superuser %}
+                    <!-- add new user -->
+                    <div class="py-4 px-8 rounded-xl bg-red-500 shadow-md transition-shadow hover:shadow-xl">
+                        <a href="{% url 'accounts:signup' %}" class="flex gap-8">
+                            <div>
+                                <i class="fas fa-user-plus text-3xl"></i>
+                            </div>
+                            <div class="grid">
+                                <span class="grid content-center">Add New User</span>
+                            </div>
+                        </a>
+                    </div>
+                    {% endif %}
                 </section>
 
                 {% include 'dashboard/components/calendar.html' %}
