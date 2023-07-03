@@ -1,6 +1,6 @@
 from django import forms
 
-from dashboard.models import Diagnosis, Patient
+from dashboard.models import Diagnosis, Drug, Patient
 
 
 
@@ -20,3 +20,10 @@ class DiagnosisFormFull(forms.ModelForm):
         fields = '__all__'
 
 DiagnosisFormSet = forms.inlineformset_factory(Patient, Diagnosis, form=DiagnosisForm, extra=1, max_num=1)
+
+
+class DrugForm(forms.ModelForm):
+    class Meta:
+        model = Drug
+        fields = '__all__'
+

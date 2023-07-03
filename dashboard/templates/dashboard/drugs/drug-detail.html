@@ -1,0 +1,56 @@
+{% extends 'dashboard/drugs/_base.html' %}
+
+
+{% block content %}
+<div class="overflow-x-auto">
+    <div class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center font-sans overflow-hidden">
+        <div class="w-full lg:w-5/6">
+            <header class="py-16">
+                <h1 class="font-semibold text-3xl text-teal-950 ">Name: <span class="text-teal-500">{{ drug.name }}:
+                        {{ drug.manufacturer }}</span></h1>
+            </header>
+
+            <div class="p-1 flex justify-between">
+                <a href="{% url 'dashboard:drug-list' %}" class="text-teal-600 font-medium">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to drug list
+                </a>
+            </div>
+
+            <div class="bg-white shadow-md rounded my-2">
+                <div class="p-8">
+                    <ul class="grid gap-2">
+                        <li>
+                            <span class="font-semibold">Manufacturer:</span>
+                            {{ drug.manufacturer }}
+                        </li>
+                        <li>
+                            <span class="font-semibold">Quantity:</span>
+                            {{ drug.get_quantity }} {{ drug.unit_name_plural }}
+                        </li>
+                        <li>
+                            <span class="font-semibold">Selling price:</span>
+                            {{ drug.selling_price }}
+                        </li>
+                        <li>
+                            <span class="font-semibold">Description:</span>
+                            <p>{{ drug.description }}</p>
+                        </li>
+                    </ul>
+                    <div class="pt-8 flex gap-4">
+                        <a href="{% url 'dashboard:drug-delete' drug.pk %}" class="text-red-600 font-medium py-2 px-4 outline outline-1 rounded-md hover:text-white hover:bg-red-600 transition-all">
+                            Delete
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <a href="{% url 'dashboard:drug-update' drug.pk %}"
+                            class="text-amber-600 font-medium py-2 px-4 outline outline-1 rounded-md hover:text-white hover:bg-amber-600 transition-all">
+                            Update
+                            <i class="fas fa-pen"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

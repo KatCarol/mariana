@@ -7,14 +7,17 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView, TemplateView
 
-from dashboard.forms import DiagnosisForm, DiagnosisFormFull, DiagnosisFormSet, PatientForm
+from dashboard.forms import DiagnosisForm, DiagnosisFormFull, DiagnosisFormSet, DrugForm, PatientForm
 from dashboard.mixins import ClinicianRequiredMixin, SalesAttendantRequiredMixin
 
 from .models import Diagnosis, Drug, Batch, Invoice, Patient, SalesItem, Stock
 from datetime import date
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
-# drugs
+# drugs ===========================================
 class DrugListView(LoginRequiredMixin, ListView):
     model = Drug
     context_object_name = 'drugs'
@@ -24,6 +27,45 @@ class DrugListView(LoginRequiredMixin, ListView):
         # the default queryset returns all the Drug objects so we are adding the quanitty to each of them
         return super().get_queryset().annotate(total_quantity=Sum('batches__quantity'))
 
+
+class DrugDetailView(DetailView):
+    model = Drug
+    context_object_name = 'drug'
+    template_name = "dashboard/drugs/drug-detail.html"
+
+    def get_queryset(self) -> QuerySet[Any]:
+        # the default queryset returns all the Drug objects so we are adding the quanitty to each of them
+        return super().get_queryset().annotate(total_quantity=Sum('batches__quantity'))
+
+
+class DrugCreateView(CreateView):
+    model = Drug
+    form_class = DrugForm
+    context_object_name = 'drug'
+    template_name = "dashboard/drugs/drug-create.html"
+    success_url = "dashboard:drug-list"
+
+
+class DrugUpdateView(UpdateView):
+    model = Drug
+    form_class = DrugForm
+    context_object_name = 'drug'
+    template_name = "dashboard/drugs/drug-update.html"
+    success_url = reverse_lazy("dashboard:drug-list")
+
+
+class DrugDeleteView(DeleteView):
+    model = Drug
+    context_object_name = 'drug'
+    template_name = "dashboard/drugs/drug-delete.html"
+    success_url = "dashboard:drug-list"
+
+
+
+
+
+
+# dashboard =======================================
 class IndexView(LoginRequiredMixin, View):
     def get(self, request):
         batches = Batch.objects.filter(quantity__gt=0)
@@ -37,6 +79,7 @@ class IndexView(LoginRequiredMixin, View):
         context = {
             'expiring': expiring_soon,
             'exp_count': count,
+            'users': User.objects.all(),
         }
         return render(request, 'dashboard/index.html', context)
 

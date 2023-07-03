@@ -6,6 +6,7 @@ class Drug(models.Model):
     description = models.TextField(null=True, blank=True)
     manufacturer = models.CharField(max_length=100)
     selling_price = models.PositiveIntegerField()
+    unit_name_plural = models.CharField(max_length=20, default='')
     # Other fields such as dosage, cost, etc.
 
     def __str__(self):

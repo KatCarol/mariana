@@ -10,11 +10,21 @@
                 <section title="info" class="grid grid-flow-col gap-8 my-8">
                     {% if request.user.is_sales_attendant or request.user.is_admin or request.user.is_superuser %}
                     <!-- expired drugs -->
-                    <div class="py-4 px-8 rounded-xl bg-teal-500 shadow-md transition-shadow hover:shadow-xl">
-                        <a href="#" class="flex gap-8">
-                            <div class="grid">
+                    <div class="py-4 px-8 rounded-xl bg-red-500 shadow-md transition-shadow hover:shadow-xl">
+                        <a href="#" class="flex gap-8 w-full">
+                            <div class="grid justify-center text-center w-full">
                                 <span class="text-4xl font-bold">{{exp_count}}</span>
                                 <span class="grid content-center">Expired Batches</span>
+                            </div>
+                        </a>
+                    </div>
+                    {% endif %}
+                    {% if request.user.is_admin or request.user.is_superuser %}
+                    <div class="py-4 px-8 rounded-xl bg-blue-400 shadow-md transition-shadow hover:shadow-xl">
+                        <a href="#" class="flex gap-8 w-full">
+                            <div class="grid justify-center text-center w-full">
+                                <span class="text-4xl font-bold">{{users.count}}</span>
+                                <span class="grid content-center">Users</span>
                             </div>
                         </a>
                     </div>
